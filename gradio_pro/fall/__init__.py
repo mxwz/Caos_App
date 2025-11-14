@@ -250,8 +250,8 @@ def fall_detection(image):
     img = np.transpose(img, (2, 0, 1))
     data = np.expand_dims(img, axis=0)
     sess = load_noox()
-    # sess = rt.InferenceSession(r'D:\python_pro\unet_lane_net\Fall-Detect\fall_detect.onnx')
-    # sess = rt.InferenceSession(r"D:\python_pro\unet_lane_net\Fall-Detect\runs\detect\train4\weights\best.onnx")
+    # sess = rt.InferenceSession(r'fall_detect.onnx')
+    # sess = rt.InferenceSession(r"best.onnx")
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
     pred = sess.run([label_name], {input_name: data.astype(np.float32)})[0]
@@ -319,8 +319,8 @@ def process_image(image, choice=None):
         img = np.transpose(img, (2, 0, 1))
         data = np.expand_dims(img, axis=0)
         sess = load_noox()
-        # sess = rt.InferenceSession(r'D:\python_pro\unet_lane_net\Fall-Detect\fall_detect.onnx')
-        # sess = rt.InferenceSession(r"D:\python_pro\unet_lane_net\Fall-Detect\runs\detect\train4\weights\best.onnx")
+        # sess = rt.InferenceSession(r'fall_detect.onnx')
+        # sess = rt.InferenceSession(r"best.onnx")
         input_name = sess.get_inputs()[0].name
         label_name = sess.get_outputs()[0].name
         pred = sess.run([label_name], {input_name: data.astype(np.float32)})[0]
@@ -415,7 +415,7 @@ def take_video(video):
 def chatbot_response(message):
     # bot_message = random.choice(["How are you?", "I love you", "I'm very hungry"])
     # 配置密钥与应用ID
-    os.environ["APPBUILDER_TOKEN"] = "bce-v3/ALTAK-jbKX5tyEu4iF75j77E6c5/5871ac278a7a2db8057fee8e3e713dd002061f61"
+    os.environ["APPBUILDER_TOKEN"] = "百度云api"
     app_id = "26f52635-7c68-46a8-a83f-ef037a35d91e"
 
     # 初始化Agent实例
@@ -463,7 +463,7 @@ def process_audio(audio_data: np.ndarray):
         # print(raw_audio_bytes)
 
         # 设置环境变量（注意：这通常是在程序开始时设置的，而不是在函数内部）
-        os.environ["APPBUILDER_TOKEN"] = "bce-v3/ALTAK-iTJuXfTOtgO8cDwPAdvmS/3b283b1f8c699cf554eeeb11fd7eb1e053ffded0"
+        os.environ["APPBUILDER_TOKEN"] = "百度云api"
 
         # 假设asr和Message类已经正确导入和初始化
         asr = appbuilder.ASR()  # 确保正确导入和初始化ASR类
@@ -488,8 +488,6 @@ def process_audio(audio_data: np.ndarray):
     except Exception as e:
         print(e)
         return "别着急慢慢来，我反应不过来了"
-
-    # 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
 
 
 # yes
@@ -560,6 +558,6 @@ iface.launch(share=False,
              server_port=5035,
              quiet=True,
              inbrowser=False,
-             ssl_keyfile=r'C:\Users\yang\localhost-key.pem',
-             ssl_certfile=r'C:\Users\yang\localhost.pem',
+             ssl_keyfile=r'localhost-key.pem',
+             ssl_certfile=r'localhost.pem',
              ssl_verify=False)
