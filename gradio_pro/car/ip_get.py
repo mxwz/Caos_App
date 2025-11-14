@@ -2,7 +2,7 @@ import requests
 
 
 def get_external_ip():
-    response = requests.get('https://cn.apihz.cn/api/ip/ipbaidu.php?id=10000996&key=265d85ba1e64b2bde1ba51984bb329d1')
+    response = requests.get('https://cn.apihz.cn/api/ip/ipbaidu.php?id=设置id&key=设置密钥')
 
     data = response.json()
     return data  # 返回解析后的字典
