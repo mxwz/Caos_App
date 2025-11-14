@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评论区</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_comment.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div id="comment_area">
+            <h1>评论区</h1>
+            <a href="{{ url_for('main.index') }}" style="color: #c7254e">返回首页</a>
+            <div id="day_night">
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <div class="sent_comments">
+            <form action="/add_comment" method="post">
+                <textarea name="content" placeholder="输入你的评论..." required></textarea>
+                <button type="submit">发表评论</button>
+            </form>
+        </div>
+        <div id="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p><strong>{{ comment.user.username }}</strong>: {{ comment.content }}</p>
+                    <p class="timestamp">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    {% if comment.user_id == current_user.id %}
+                        <form action="/delete_comment/{{ comment.id }}" method="post">
+                            <button type="submit">删除</button>
+                        </form>
+                    {% endif %}
+                    <form action="/add_reply/{{ comment.id }}" method="post">
+                        <textarea name="reply_content" placeholder="回复评论..."></textarea>
+                        <button type="submit">回复</button>
+                    </form>
+                    <div class="replies">
+                        {% for reply in comment.replies %}
+                            <div class="reply">
+                                <p><strong>{{ reply.user.username }}</strong>: {{ reply.content }}</p>
+                                <p class="timestamp">{{ reply.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                {% if reply.user_id == current_user.id %}
+                                    <form action="/delete_reply/{{ reply.id }}" method="post">
+                                        <button type="submit">删除</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/day_night.js') }}"></script>
+</body>
+</html>

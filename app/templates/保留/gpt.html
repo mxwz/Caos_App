@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gpt.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Chat with GPT</h1>
+    </header>
+    <main>
+        <section class="chat-container">
+            <div class="chat-box" id="response"></div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="question" placeholder="Ask a question" required>
+                <button type="submit">发送</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/gpt.js') }}"></script>
+</body>
+</html>

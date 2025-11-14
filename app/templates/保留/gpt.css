@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.chat-container {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-box {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-form {
+    display: flex;
+    padding: 1rem;
+}
+
+.chat-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+}
+
+.chat-form button {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.chat-form button:hover {
+    background-color: #555;
+}
+
+.message {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 12px;
+    max-width: 70%;
+    position: relative;
+}
+
+.user-message {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-message::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: #dcf8c6;
+    z-index: 1;
+}
+
+.bot-message {
+    background-color: #f1f1f1;
+    align-self: flex-start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bot-message::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

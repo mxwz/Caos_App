@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+    <title>注册</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_register.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="tit">注册</div>
+        <form method="POST">
+            <input type="text" name="username" placeholder="用户名" value="{{ username }}" required><br>
+            <input type="password" name="password" placeholder="密码" required><br>
+            <input type="email" id="register_email" name="email" placeholder="邮箱" value="{{ email }}" required><br>
+            <button type="button" id="send_register_email">发送验证码</button><br>
+            <input type="text" name="email_code" placeholder="请输入邮箱验证码" required><br>
+            <input type="submit" value="注册">
+        </form>
+        <span>已经注册？<a href="{{ url_for("main.login") }}">去登录</a><span> | </span><a href="{{ url_for("main.index") }}" style="color: red">返回首页</a></span>
+        <span id="next">忘记密码？<a href="{{ url_for("main.reset_password") }}" style="color: blue;">找回账号</a></span>
+    </div>
+    <div class="square">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="circle">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        // 验证邮箱格式的函数
+        function validateEmail(email) {
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailRegex.test(email);
+        }
+
+        // 绑定点击事件到发送验证码按钮
+        document.getElementById('send_register_email').addEventListener('click', function() {
+            var email = document.getElementById('register_email').value;
+            if (validateEmail(email)) {
+                // 如果邮箱格式正确，则发送验证码
+                // 这里可以调用发送验证码的函数或AJAX请求
+                console.log('邮箱格式正确，可以发送验证码');
+
+                // 锁定邮箱输入框
+                var emailInput = document.getElementById('register_email');
+                emailInput.readOnly = true; // 设置输入框为只读
+                emailInput.classList.add('locked'); // 添加锁定样式
+
+                // $.post('/send_email', { email: email }, function(data) {
+                //     alert(data.message);
+                // });
+            } else {
+                // 如果邮箱格式不正确，则弹出提示
+                alert('邮箱格式不正确，请重新输入');
+            }
+        });
+    </script>
+    <script>
+        $('#send_register_email').click(function() {
+            const email = $('#register_email').val();
+            $.post('/send_email', { email: email }, function(data) {
+                alert(data.message);
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('send_register_email').addEventListener('click', function() {
+            var button = this;
+            var countdown = 60; // 倒计时秒数
+            var intervalId = setInterval(function() {
+                if (countdown > 0) {
+                    button.textContent = '剩余 ' + countdown + ' 秒'; // 更新按钮文本为剩余秒数
+                    countdown--;
+                } else {
+                    clearInterval(intervalId); // 清除定时器
+                    button.textContent = '重新发送验证码'; // 恢复按钮文本
+                    button.classList.remove('disabled'); // 移除禁用样式（如果之前添加了的话）
+                    // 这里可以添加重新发送验证码的逻辑，但注意不要在倒计时期间重复发送
+                }
+            }, 1000); // 每秒更新一次
+
+            // 立即禁用按钮并添加样式（可选）
+            button.classList.add('disabled');
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 选择所有class为flash_msg的元素
+            var flashMessages = document.querySelectorAll('.flash_msg');
+
+            // 为每个消息设置定时器
+            flashMessages.forEach(function (flashMessage) {
+                // 显示消息
+                flashMessage.style.display = 'block';
+
+                // 设置定时器，两秒后隐藏消息
+                setTimeout(function () {
+                    flashMessage.style.display = 'none';
+                }, 2000);
+            });
+        });
+    </script>
+{#    当刷新时#}
+    <script>
+        window.addEventListener('beforeunload', function(event) {
+            // 设置一个标志，表示页面即将刷新
+            localStorage.setItem('page_refreshed', 'true');
+        });
+
+        // 检查是否是页面刷新
+        if (localStorage.getItem('page_refreshed')) {
+            // 发送一个请求到服务器，告诉服务器页面已经刷新
+            fetch('/page-refreshed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ refreshed: true })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.cleared) {
+                      localStorage.removeItem('page_refreshed'); // 清除标志
+                      {#console.log('注册失败，验证码无效');#}
+                      alert(data.message);
+                  }
+              });
+        }
+    </script>
+
+    <script>
+            var arr = ["❤富强❤", "❤民主❤", "❤文明❤", "❤和谐❤", "❤自由❤", "❤平等❤", "❤公正❤", "❤法治❤", "❤爱国❤",
+                    "❤敬业❤", "❤诚信❤", "❤友善❤"]
+                function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+            document.onclick = function (x) {
+                // 创建元素节点对象
+                var span = document.createElement("span")
+                span.id = "aaa"
+                // 获取当前鼠标的坐标
+                span.style.left = x.clientX + "px"
+                span.style.top = x.clientY + "px"
+                // 让span的值为arr数组内随机的一个值
+                span.innerHTML = arr[Math.floor(Math.random() * arr.length)]
+                 // 设置span的背景颜色为随机颜色
+                span.style.color = getRandomColor();
+                // 设置span的动画效果（这里可以自行）
+                setTimeout(function () {
+                    span.style.opacity = "0.5"
+                    span.style.transform = "translateY(-100px)"
+                }, 100)
+                setTimeout(function () {
+                    span.style.opacity = "0"
+                    span.style.transform = "translateY(-230px)"
+                }, 1500)
+                // 最后一步是清掉opacirt为0的span
+                setTimeout(function () {
+                    var chi = document.getElementsByTagName("span")
+                    chi.id = "aaa"
+                    for (var i = 0; i < chi.length; i++) {
+                        if (chi[i].style.opacity == "0") {
+                            document.body.removeChild(chi[i])
+                        }
+                    }
+                }, 1000)
+                // 将span添加到body里
+                document.body.appendChild(span)
+            }
+    </script>
+</body>
+
+</html>

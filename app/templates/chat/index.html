@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='css/chat_index.css') }}"></script>
+    <style>
+        #messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .username {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .mention {
+            color: #007bff;
+            cursor: pointer;
+        }
+        .mention-list {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .mention-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .mention-item:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <div id="messages"></div>
+    <textarea id="message" placeholder="Shift+Enter换行" oninput="handleInput(event)" onkeydown="handleKeyPress(event)"></textarea>
+    <button onclick="sendMessage()">Send</button>
+    <div id="mention-list" class="mention-list"></div>
+
+    <script>
+        var socket = io();
+        var currentUsername = "{{ current_user.username }}";
+        var users = [];  // 存储在线用户列表
+        var quotedMessage = null;  // 存储被引用的消息
+
+        function sendMessage() {
+            var message = $('#message').val();
+            if (message.trim() !== '') {
+                if (quotedMessage) {
+                    var parts = message.split('\n');
+                    var actualMessage = parts[parts.length - 1].trim();
+                    if (actualMessage) {
+                        socket.emit('chat message', {
+                            message: actualMessage,
+                            quote: {
+                                username: quotedMessage.username,
+                                message: quotedMessage.message
+                            }
+                        });
+                    }
+                } else {
+                    socket.emit('chat message', {
+                        message: message,
+                        quote: null
+                    });
+                }
+                $('#message').val('');
+                quotedMessage = null;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function handleInput(event) {
+            var input = $('#message');
+            var value = input.val();
+            var mentionIndex = value.lastIndexOf('@');
+
+            if (mentionIndex !== -1 && mentionIndex === input[0].selectionStart - 1) {
+                showMentionList(value.substring(mentionIndex + 1));
+            } else {
+                hideMentionList();
+            }
+        }
+
+        function showMentionList(query) {
+            var list = $('#mention-list');
+            list.empty();
+
+            users.forEach(user => {
+                if (user.startsWith(query)) {
+                    var item = $('<div class="mention-item"></div>').text(user);
+                    item.click(function() {
+                        var input = $('#message');
+                        var value = input.val();
+                        var mentionIndex = value.lastIndexOf('@');
+                        input.val(value.substring(0, mentionIndex) + '@' + user + ' ');
+                        input.focus();
+                        hideMentionList();
+                    });
+                    list.append(item);
+                }
+            });
+
+            list.show();
+            list.css({
+                top: $('#message').offset().top + $('#message').outerHeight(),
+                left: $('#message').offset().left
+            });
+        }
+
+        function hideMentionList() {
+            $('#mention-list').hide();
+        }
+
+        function quoteMessage(message) {
+            console.log('Quoting message:', message);  // 调试信息
+            quotedMessage = message;
+            $('#message').val('> ' + message.username + ':\n' + '> [' + message.username + ': ' + message.message + ']\n');
+            $('#message').focus();
+        }
+
+        socket.on('chat message', function(data) {
+            console.log('Received chat message:', data);  // 调试信息
+            var messageElement = $('<div class="message"></div>');
+
+            var usernameElement = $('<div class="username"></div>').text(data.username + ': ');
+            messageElement.append(usernameElement);
+
+            if (data.quote) {
+                var quoteElement = $('<div class="quote"></div>');
+                quoteElement.html('<strong>'+ '引用 [ ' + data.quote.username + ':</strong> ' + data.quote.message.replace(/@(\w+)/g, '<span class="mention">$&</span>') + ' ]');
+                messageElement.append(quoteElement);
+            }
+            var contentElement = $('<div class="content"></div>').html(data.message.replace(/\n/g, '<br>').replace(/@(\w+)/g, '<span class="mention">$&</span>'));
+            messageElement.append(contentElement);
+
+            $('#messages').append(messageElement);
+            $('#messages').scrollTop($('#messages')[0].scrollHeight);
+
+            // 添加点击消息引用的功能
+            contentElement.click(function(event) {pyt
+                event.stopPropagation();  // 防止事件冒泡
+                console.log('Message clicked:', data);  // 调试信息
+                quoteMessage({
+                    username: data.username,
+                    message: data.message
+                });
+            });
+        });
+
+        socket.on('user joined', function(username) {
+            if (!users.includes(username)) {
+                users.push(username);
+            }
+        });
+
+        socket.on('user left', function(username) {
+            users = users.filter(user => user !== username);
+        });
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest('#message, .mention-list').length) {
+                hideMentionList();
+            }
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>

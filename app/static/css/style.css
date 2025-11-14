@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #f06, #ffb); /* 渐变背景 */
+    color: #333;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+form {
+    max-width: 300px;
+    margin: auto;
+    padding: 15px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+input[type="submit"] {
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background: #218838;
+}
+
+.flash_msg{
+    position: absolute; /* 绝对定位相对于 .container */
+    top: 10px; /* 距离上边距 10 像素 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 通过负半宽度进行精确居中 */
+    background-color: rgba(173, 216, 230, 0.8); /* 半透明淡蓝色 */
+    color: #000; /* 文本颜色为黑色 */
+    padding: 5px 10px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    font-size: 14px; /* 字体大小 */
+    display: flex; /* 可选：使内容居中 */
+    justify-content: center; /* 可选：水平方向居中 */
+    align-items: center; /* 可选：垂直方向居中 */
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_home.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" type="image/x-icon">
+</head>
+<body class="light-theme">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <header>
+        <div class="header-content">
+            <h1>欢迎来到<span style="color: crimson; line-height:12px">{{ username }}</span>的主页</h1>
+            <p>这里是关于我的一切</p>
+        </div>
+    </header>
+    <main>
+        <section id="about">
+            <button id="theme-toggle" style="position: absolute; top: 20px; right: 20px;">切换日夜模式</button>
+            <h2>关于我</h2>
+            <div class="profile-photo">
+                {% if photo %}
+                    <img src="{{ url_for('static', filename='head/' + photo) }}" alt="用户头像">
+                {% endif %}
+            </div>
+            <p id="bio">{{ bio }}</p>
+{#            <input type="text" id="bio-input" placeholder="输入新的签名">#}
+{#            <button id="update-bio">更新签名</button>#}
+            <input type="file" id="background-image" accept="image/*" style="display: block; margin: 20px auto;">
+            <div class="profile-card">
+                <h3>个人资料</h3>
+{#                <ul>#}
+{#                    <li><strong>手机号:</strong> <span id="phone-number"></span></li>#}
+{#                    <li><strong>性别:</strong> <span id="gender"></span></li>#}
+{#                    <li><strong>年龄:</strong> <span id="age"></span></li>#}
+{#                    <li><strong>行业:</strong> <span id="industry"></span></li>#}
+{#                    <li><strong>兴趣爱好:</strong> <span id="interests"></span></li>#}
+{#                    <li><strong>地区:</strong> <span id="location"></span></li>#}
+{#                </ul>#}
+                <ul>
+                    <li><strong>邮箱:</strong> <span id="email">{{ email }}</span></li>
+                    <li><strong>手机号:</strong> <span id="phone-number">{{ phone_number }}</span></li>
+                    <li><strong>性别:</strong> <span id="gender">{{ gender }}</span></li>
+                    <li><strong>年龄:</strong> <span id="age">{{ age }}</span></li>
+                    <li><strong>行业:</strong> <span id="industry">{{ industry }}</span></li>
+                    <li><strong>兴趣爱好:</strong> <span id="interests">{{ interests }}</span></li>
+                    <li><strong>地区:</strong> <span id="location">{{ location }}</span></li>
+                </ul>
+            </div>
+        </section>
+        <!-- 更多部分 -->
+    </main>
+    <footer>
+        <span id="next"><a href="{{ url_for("main.index") }}" style="color: #00c6ff">返回首页</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="{{ url_for("page.update_profile") }}" style="color: red">更改资料</a></span>
+        <p>&copy; 2024 混沌新城所有权利保留</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/script_home.js') }}"></script>
+    <script>
+        // 显示闪现消息
+        document.querySelectorAll('.flash_msg').forEach(function(msg) {
+            msg.style.display = 'block';
+            setTimeout(function() {
+                msg.style.display = 'none';
+            }, 3000); // 消息显示3秒后消失
+        });
+    </script>
+</body>
+</html>

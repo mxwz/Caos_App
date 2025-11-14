@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载中...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    <div id="content" class="content">
+        <h1>欢迎来到主页面</h1>
+        <p>这是页面的主要内容。</p>
+    </div>
+    <script src="{{ url_for('static', filename='loading.js') }}"></script>
+</body>
+</html>

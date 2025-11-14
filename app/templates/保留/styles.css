@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 1px;
+    background-color: #333;
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 1;
+}
+
+.sidebar-header .toggle-btn {
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    display: none; /* 默认隐藏按钮 */
+}
+
+.sidebar.expanded .sidebar-header .toggle-btn {
+    display: block; /* 展开时显示按钮 */
+}
+
+.sidebar ul {
+    list-style: none;
+    margin-top: 50px; /* 确保内容在按钮下方 */
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: padding-left 0.3s ease;
+}
+
+.sidebar.expanded ul li a {
+    padding-left: 20px;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+}

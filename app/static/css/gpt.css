@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+.chat-container {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-box {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-form {
+    display: flex;
+    padding: 1rem;
+}
+
+.chat-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+}
+
+.chat-form button {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.chat-form button:hover {
+    background-color: #555;
+}
+
+.message {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 12px;
+    max-width: 70%;
+    position: relative;
+}
+
+.user-message {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-message::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: #dcf8c6;
+    z-index: 1;
+}
+
+.bot-message {
+    background-color: #f1f1f1;
+    align-self: flex-start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bot-message::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#back {
+    color: #0c1622;
+}
+
+.flash_msg{
+    position: absolute; /* 绝对定位相对于 .container */
+    top: 10px; /* 距离上边距 10 像素 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 通过负半宽度进行精确居中 */
+    background-color: rgba(173, 216, 230, 0.8); /* 半透明淡蓝色 */
+    color: #000; /* 文本颜色为黑色 */
+    padding: 5px 10px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    font-size: 14px; /* 字体大小 */
+    display: flex; /* 可选：使内容居中 */
+    justify-content: center; /* 可选：水平方向居中 */
+    align-items: center; /* 可选：垂直方向居中 */
+}

@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+{#    <link rel="icon" href="{{ url_for('static', filename='DataV/img/favicon.ico') }}" />#}
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" />
+    <!-- <link rel="stylesheet" href="./fonts/font.css" /> -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='DataV/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='DataV/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='DataV/css/jq22.css') }}" />
+    <title>智行领航大数据平台</title>
+    <style>
+      .BMap_scaleTxt{
+        color: #fff!important;
+      }
+    </style>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="main" id="appIndex">
+      <div class="header">
+        <img
+          style="width: 80px;height: 84px;margin-right: 20px;"
+          src="{{ url_for('static', filename='DataV/img/0101010.png') }}"
+          alt=""
+        />
+{#        <img src="{{ url_for('static', filename='DataV/img/lzxfdsjpt.png') }}" alt="大数据平台" />#}
+        <img src="{{ url_for('static', filename='DataV/img/111.png') }}" alt="智慧防大数据平台" />
+        <div class="dateBox">
+            <span id="time"></span>
+            &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="{{ url_for('manage.management') }}">返回管理</a>
+{#            返回上一级#}
+{#            <a href="javascript:history.back()"></a>#}
+        </div>
+      </div>
+      <div class="content">
+
+        <div class="leftBox col-md-2">
+          <div class="pingfen">
+            <div>
+              <div class="pfTitle">
+                <img src="{{ url_for('static', filename='DataV/img/aqpf.png') }}" alt="" />
+                <span class="titleText">安全评分</span>
+              </div>
+              <div class="pfcontent">
+                <div class="leftBox">
+                  <img src="{{ url_for('static', filename='DataV/img/aqdj.png') }}" alt="" />
+                  <span>安全等级</span>
+                </div>
+                <div id="echartAqpf" style="width:105px;height:105px;padding-left: 20px;margin-bottom: 32px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="paimin">
+            <div>
+              <div class="pfTitle" style="margin-bottom: 30px;">
+                <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/jzaqpf.png') }}" alt="" />
+                <span class="titleText">位置安全评分排名</span>
+              </div>
+              <div id="FontScroll">
+                <ul>
+                  <li>
+                    <a href="https://gitee.com/iGaoWei/big-data-view">
+                      <span class="leftSpan">中心城购物中心 </span>
+                      <span>70</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://gitee.com/iGaoWei/big-data-view">
+                      <span class="leftSpan">万象汇商业广场 </span>
+                      <span>75</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://gitee.com/iGaoWei/big-data-view">
+                      <span class="leftSpan">万科天誉商业街 </span>
+                      <span>71</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://gitee.com/iGaoWei/big-data-view">
+                      <span class="leftSpan">丹竹头地铁站 </span>
+                      <span>65</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://gitee.com/iGaoWei/big-data-view">
+                      <span class="leftSpan">华南城购物中心 </span>
+                      <span>60</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="top10">
+            <div>
+              <div class="pfTitle" style="margin-bottom: 30px;">
+                <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/aqyh.png') }}" alt="" />
+                <span class="titleText">安全隐患TOP10</span>
+              </div>
+              <img
+                style="display: block;margin: auto;width: 80%;height: 75%;"
+                src="{{ url_for('static', filename='DataV/img/aqyhtop100.png') }}"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+        <div class="middleBox col-md-8">
+          <div class="baiduMap">
+
+            <div id="container"></div>
+          </div>
+          <div class="tongjiList">
+            <div>
+              <div class="col-md-3" style="margin: 0 15px;position: relative;">
+                <div style="justify-content: center;position: relative;top: 22px;" class="pfTitle">
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/xfjs.png') }}" alt="" />
+                  <span class="titleText">传感状态系统</span>
+                </div>
+                <!-- <img src="img/xfjsxt.png" alt="" /> -->
+                <div id="echartsxfjs" style="width:100%;height:180px;"></div>
+              </div>
+              <div class="comLine"></div>
+              <div class="col-md-3" style="margin: 0 15px;position: relative;">
+                <div style="justify-content: center;position: relative; top: 22px;
+            " class="pfTitle">
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/ldbj.png') }}" alt="" />
+                  <span class="titleText">联动报警统计</span>
+                </div>
+                <span style="top:90px" class="smdate">{{ year }} {{ month }}</span>
+                <div id="echartsldbj" style="width:100%;height:180px;margin-top: 10px;"></div>
+                <!-- <img src="img/ldbjtj.png" alt="" /> -->
+                <!-- <span class="spanfont"
+                  >11 &nbsp; 12 &nbsp; 13 &nbsp;11 &nbsp;12 &nbsp;13 &nbsp;
+                  15</span
+                > -->
+              </div>
+              <div class="comLine"></div>
+              <div class="col-md-3" style="margin: 0 15px;position: relative;">
+                <div style="justify-content: center;position: relative; top: 22px;" class="pfTitle">
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/jgbj.png') }}" alt="" />
+                  <span class="titleText">监管报警统计</span>
+                </div>
+                <span style="top:90px" class="smdate">{{ year }} {{ month }}</span>
+                <!-- <img src="img/jgbjtj.png" alt="" /> -->
+                <div id="echartsjgbj" style="width:100%;height:180px;"></div>
+                <!-- <span class="spanfont"
+                  >11 &nbsp; 12 &nbsp; 13 &nbsp;11 &nbsp;12 &nbsp;13 &nbsp;
+                  15</span
+                > -->
+              </div>
+              <div class="comLine"></div>
+              <div class="col-md-3" style="margin: 0 15px;position: relative;">
+                <div
+                  style="justify-content: center;margin-bottom: 3px;margin-top: 30px;"
+                  class="pfTitle"
+                >
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/rcxj.png') }}" alt="" />
+                  <span class="titleText">日常巡检统计</span>
+                </div>
+                <span style="left: 120px;bottom:130px" class="smdate"
+                >{{ year }} {{ month }}</span
+              >
+                <div id="echartsrcxj" style="width:100%;height:180px;"></div>
+                <!--
+                <span style="left: 110px;" class="smdate"
+                  >{{ year }} {{ month }}</span
+                > -->
+                <!-- <img src="img/rcxjtj.png" alt="" /> -->
+
+                <!-- <span class="spanfont"
+                  >11 &nbsp;&nbsp;12  &nbsp;&nbsp;13  &nbsp;&nbsp;11 &nbsp;&nbsp;12 &nbsp;&nbsp;13&nbsp;&nbsp;15
+                  &nbsp;&nbsp;15
+                </span>
+                <div style="display: flex;justify-content: center;">
+                  <img src="img/zflft.png" alt="" />
+                  <span class="smtext">巡查数量</span>
+                  <img src="img/zfright.png" alt="" />
+                  <span class="smtext">巡查覆盖率</span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rightBox col-md-2">
+          <div class="weihutj">
+            <div>
+              <div style="margin-left: 27px;" class="pfTitle">
+                <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/whtj.png') }}" alt="" />
+                <span class="titleText">维保统计</span>
+              </div>
+              <div class="pfcontent flexrow">
+                <div
+                  style="width: 120px;"
+                  class="leftBox flexcolom"
+                >
+                  <div class="sbwx">
+                    <span class="sbxanim animText">69</span>
+                    <span class="smtext sbwxtext">设备维修</span>
+                  </div>
+                  <span style="margin-top: 20px;" class="smtext">维保次数</span>
+                </div>
+
+                <div class="flexcolom" style="margin: 0 8px;">
+                 <div id="echartWbtj" style="width:100px;height:100px;"></div>
+                  <span style="margin-top: 20px;" class="smtext"
+                    >维保覆盖率</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="guzhangtj">
+            <div>
+              <div style="margin: 0 15px;position: relative;">
+                <div
+                  style="justify-content: flex-start;margin-bottom: 3px;"
+                  class="pfTitle"
+                >
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/gzt.png') }}" alt="" />
+                  <span class="titleText">故障统计</span>
+                </div>
+                <span style="left: 40%;top: 30%;" class="smdate"
+                  >{{ year }} {{ month }}</span
+                >
+                <div id="echartsgztj" style="width:100%;height:180px;"></div>
+                <!-- <img src="img/gztjs.png" alt="" />
+                <span class="spanfont"
+                  >11 &nbsp; 12 &nbsp; 13 &nbsp;11 &nbsp;12 &nbsp;13 &nbsp;
+                  15</span
+                > -->
+                <!-- <div
+                  style="display: flex;justify-content: center;margin-top: 10px;"
+                >
+                  <img src="img/zflft.png" alt="" />
+                  <span class="smtext">故障数量</span>
+                  <img src="img/zfright.png" alt="" />
+                  <span class="smtext">故障处理及时率</span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="huojingtj">
+            <div>
+              <div style="margin: 0 15px;position: relative;">
+                <div
+                  style="justify-content: flex-start;margin-bottom: 3px;"
+                  class="pfTitle"
+                >
+                  <img style="margin-right: 10px    ;" src="{{ url_for('static', filename='DataV/img/hj.png') }}" alt="" />
+                  <span class="titleText">驾驶员状态统计</span>
+                </div>
+                <span style="left: 40%;top: 30%;"  class="smdate"
+                  >{{ year }} {{ month }}</span
+                >
+                <div id="echartshjtj" style="width:100%;height:180px;left: 10px;"></div>
+                <!-- <img src="img/hjtjs.png" alt="" />
+                <span class="spanfont"
+                  >11 &nbsp; 12 &nbsp; 13 &nbsp;11 &nbsp;12 &nbsp;13 &nbsp;
+                  15</span
+                >
+                <div
+                  style="display: flex;justify-content: center;margin-top: 10px;"
+                >
+                  <img src="img/zflft.png" alt="" />
+                  <span class="smtext">火警数量</span>
+                  <img src="img/zfright.png" alt="" />
+                  <span class="smtext">火警处理及时率</span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="zhifatj">
+            <div class="flexcolom">
+                <div
+                  class="pfTitle"
+                >
+                  <img style="margin-right: 10px;" src="{{ url_for('static', filename='DataV/img/zfjg.png') }}" alt="" />
+                  <span class="titleText">网络安全统计</span>
+                </div>
+                <div id="echartszfjgtj" style="width:100%;height:180px;padding: 0 12px;top:-18px"></div>
+                <!-- <img src="img/zfjgtj.png" alt="" /> -->
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  function updateDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const date = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const second = String(now.getSeconds()).padStart(2, '0');
+    const strDate = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+
+    document.getElementById('time').innerText = strDate;
+  }
+
+  // 初始化时间
+  updateDateTime();
+
+  // 每秒更新一次时间
+  setInterval(updateDateTime, 1000);
+</script>
+
+
+    <script src="{{ url_for('static', filename='DataV/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/vue.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/echarts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/walden.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/roma.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/jquery.countUp.js') }}"></script>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?v=2.0&ak=2YCQxbGampc7M1pFsKWNiwpS5F7RKVRt&s=1"
+    ></script>
+    <script src="{{ url_for('static', filename='DataV/js/fontscroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataV/js/echart.js') }}"></script>
+    <script type="text/javascript">
+     var markerArr = [
+
+{
+  point: "114.244916, 22.691524",
+},
+
+{
+   point: "114.216288, 22.656012",
+ },
+ {
+   point: "114.211477, 22.705289",
+ },
+ {
+  point: "114.200782, 22.711690",
+},
+
+{
+   point: "114.262968, 22.708106",
+ },
+ {
+   point: "114.201182, 22.723867",
+ },
+ {
+  point: "114.235244, 22.701548",
+},
+
+{
+   point: "114.230918, 22.709904",
+ },
+ {
+   point: "114.247534, 22.679952",
+ },
+ {
+  point: "114.233264, 22.677780",
+},
+
+{
+   point: "114.213052, 22.703624",
+ },
+ {
+   point: "114.212097, 22.688004",
+ },
+ {
+  point: "114.237923, 22.687851",
+},
+
+{
+   point: "114.211700, 22.684438",
+ },
+ {
+   point: "114.214732, 22.712357",
+ }
+
+];
+
+var markerArr1 = [
+
+{
+  point: "114.253004, 22.691207",
+},
+
+{
+   point: "114.201252, 22.686248",
+ },
+ {
+   point: "114.208317, 22.690717",
+ },
+ {
+  point: "114.240628, 22.654374",
+},
+
+{
+   point: "114.246015, 22.718059",
+ },
+ {
+   point: "114.195196, 22.676041",
+ },
+ {
+  point: "114.234697, 22.689012",
+},
+
+{
+   point: "114.232127, 22.674758",
+ },
+ {
+   point: "114.231240, 22.674078",
+ },
+ {
+  point: "114.239535, 22.695224",
+},
+
+];
+
+var markerArr2 = [
+
+{
+  point: "114.295263, 22.656888",
+},
+
+{
+   point: "114.211417, 22.766796",
+ },
+ {
+   point: "114.214119, 22.765154",
+ },
+ {
+  point: "114.262062, 22.791979",
+},
+
+{
+   point: "114.207256, 22.615257",
+ },
+ {
+   point: "114.290166, 22.698288",
+ },
+ {
+  point: "114.276568, 22.608811",
+},
+
+{
+   point: "114.251600, 22.734042",
+ },
+ {
+   point: "114.245043, 22.623383",
+ },
+ {
+  point: "114.243510, 22.768564",
+},
+
+];
+      var map = new BMap.Map('container')
+      // 创建地图实例
+      var point = new BMap.Point(114.227569, 22.692171)
+      // 创建点坐标
+      map.centerAndZoom(point, 15)
+      // 初始化地图，设置中心点坐标和地图级别
+      map.enableScrollWheelZoom(true)
+      var ctrlSca = new window.BMap.ScaleControl({
+                                                anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+                                            });
+                                           map.addControl(ctrlSca);
+      for(var i = 0; i < markerArr.length; i++) {
+                                                      var p0 = markerArr[i].point.split(",")[0];
+                                                      var p1 = markerArr[i].point.split(",")[1];
+                                                      var maker = addMarker(new window.BMap.Point(p0, p1), i);
+
+                                             }
+
+                                             for(var i = 0; i < markerArr1.length; i++) {
+                                                      var p0 = markerArr1[i].point.split(",")[0];
+                                                      var p1 = markerArr1[i].point.split(",")[1];
+                                                      var maker = addMarker1(new window.BMap.Point(p0, p1), i);
+
+                                             }
+                                             for(var i = 0; i < markerArr2.length; i++) {
+                                                      var p0 = markerArr2[i].point.split(",")[0];
+                                                      var p1 = markerArr2[i].point.split(",")[1];
+                                                      var maker = addMarker2(new window.BMap.Point(p0, p1), i);
+
+                                             }
+
+
+// 添加标注
+                                            function addMarker(point, index) {
+                                                         var myIcon = new BMap.Icon("{{ url_for('static', filename='DataV/img/green5.png') }}",
+                                                               new BMap.Size(23, 25), {
+                                                                        // offset: new BMap.Size(10, 25),
+                                                                        //  imageOffset: new BMap.Size(0, 0 - index * 25)
+                                                                 });
+                                                                var marker = new BMap.Marker(point, {
+                                                                      icon: myIcon
+                                                                   });
+                                                                  map.addOverlay(marker);
+                                                                    return marker;
+                                                }
+
+                                            function addMarker1(point, index) {
+                                                         var myIcon = new BMap.Icon("{{ url_for('static', filename='DataV/img/red5.png') }}",
+                                                               new BMap.Size(23, 25), {
+                                                                        // offset: new BMap.Size(10, 25),
+                                                                        //  imageOffset: new BMap.Size(0, 0 - index * 25)
+                                                                 });
+                                                                var marker = new BMap.Marker(point, {
+                                                                      icon: myIcon
+                                                                   });
+                                                                  map.addOverlay(marker);
+                                                                    return marker;
+                                                }
+
+
+                                            function addMarker2(point, index) {
+                                                         var myIcon = new BMap.Icon("{{ url_for('static', filename='DataV/img/yellow5.png') }}",
+                                                               new BMap.Size(23, 25), {
+                                                                        // offset: new BMap.Size(10, 25),
+                                                                        //  imageOffset: new BMap.Size(0, 0 - index * 25)
+                                                                 });
+                                                                var marker = new BMap.Marker(point, {
+                                                                      icon: myIcon
+                                                                   });
+                                                                  map.addOverlay(marker);
+                                                                    return marker;
+                                                }
+
+
+
+      map.setMapStyle({ style: 'midnight' })
+      $('#container').css('background-color', 'rgba(50,72,106,0.2)')
+
+    </script>
+
+  </body>
+</html>

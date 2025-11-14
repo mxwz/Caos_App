@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <h1>留言板</h1>
+        <form id="message-form" action="{{ url_for('submit') }}" method="post">
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="message">留言:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">提交</button>
+        </form>
+        <div id="messages">
+            {% for message in messages %}
+                <div class="message">
+                    <strong>{{ message.name }}</strong>: {{ message.message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

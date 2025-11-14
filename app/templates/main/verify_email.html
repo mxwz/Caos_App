@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮箱验证</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <form method="POST">
+        <h2>邮箱验证</h2>
+        <input type="text" name="email_code" placeholder="请输入邮箱验证码" required><br>
+        <input type="submit" value="验证">
+    </form>
+    <a href="/static">返回主页</a>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>浏览器环境检测</title>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=786fbae36de9d0b87935fc1e20e1cb27"></script>
+
+    <!--以下 JS、CSS 仅为在示例展示结果使用，JSAPI本身不依赖以下资源，正式开发请删除-->
+{#    <script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/demo-center/jsonTree/jsonTree.js'></script>#}
+{#    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>#}
+    <!--以上 JS、CSS 仅为在示例中展示结果使用，JSAPI本身不依赖以上资源，正式开发请删除-->
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                <div>{{ message }}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="info code">
+    <h4>浏览器环境检测结果:</h4><div id="result" class="result" style='top:3rem;'></div>
+</div>
+
+<script type="text/javascript">
+
+    var wrapper = document.getElementById("result");
+    var env = {
+        '平台类型': AMap.Browser.plat,
+        '是否移动设备': AMap.Browser.mobile,
+        '是否触摸设备': AMap.Browser.touch,
+        '是否高清屏': AMap.Browser.retina,
+        '是否安卓设备': AMap.Browser.android,
+        '是否iOS设备': AMap.Browser.ios,
+        '是否Windows设备': AMap.Browser.windows,
+        '是否Mac设备': AMap.Browser.mac,
+        '是否IE6': AMap.Browser.ie6,
+        '是否IE7': AMap.Browser.ie7,
+        '是否IE8': AMap.Browser.ie8,
+        '是否IE9': AMap.Browser.ie9,
+        '是否IE10': AMap.Browser.ie10,
+        '是否IE11': AMap.Browser.ie11,
+        '是否IE9以下': AMap.Browser.ielt9,
+        '是否Edge浏览器': AMap.Browser.edge,
+        '是否支持LocalStorage': AMap.Browser.isLocalStorage,
+        '是否支持Geolocation': AMap.Browser.isGeolocation,
+        '是否Webkit移动浏览器': AMap.Browser.mobileWebkit,
+        '是否支持Css3D的Webkit移动端浏览器': AMap.Browser.mobileWebkit3d,
+        '是否iPad': AMap.Browser.iPad,
+        '是否安卓4以下系统': AMap.Browser.android23,
+        '是否Chrome浏览器': AMap.Browser.chrome,
+        '是否火狐浏览器': AMap.Browser.firefox,
+        '是否Safari浏览器': AMap.Browser.safari,
+        '是否微信': AMap.Browser.wechat,
+        '是否UC浏览器': AMap.Browser.uc,
+        '是否QQ或QQ浏览器': AMap.Browser.qq,
+        '是否IE浏览器': AMap.Browser.ie,
+        '是否支持Canvas': AMap.Browser.isCanvas,
+        '是否支持SVG': AMap.Browser.isSvg,
+        '是否支持VML': AMap.Browser.isVML,
+        '是否支持WebWorker': AMap.Browser.isWorker,
+        '是否支持WebSocket': AMap.Browser.isWebsocket,
+        '是否支持WebGL': AMap.Browser.isWebGL(),
+        '是否支持Css3D的Webkit浏览器': AMap.Browser.webkit3d,
+        '是否支持Css3D的Gecko浏览器': AMap.Browser.gecko3d,
+        '是否支持Css3D的IE浏览器': AMap.Browser.ie3d,
+        '是否支持Css3D的浏览器': AMap.Browser.any3d,
+        '是否支持Css3D的Opera浏览器': AMap.Browser.opera3d,
+        '是否msPointer设备': AMap.Browser.msPointer,
+        '是否pointer设备': AMap.Browser.pointer,
+        '是否webkit浏览器': AMap.Browser.webkit,
+        'User-Agent': AMap.Browser.ua
+    }
+    console.log(env);
+    var tree = jsonTree.create(env, wrapper)
+    tree.expand();
+
+</script>
+
+</body>
+</html>

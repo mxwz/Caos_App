@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gpt.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <header>
+        <h1>Chat with GPT</h1>
+    </header>
+    <div id="back">
+        <a href="{{ url_for('main.index') }}">返回首页</a>
+    </div>
+    <main>
+        <section class="chat-container">
+            <div class="chat-box" id="response"></div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="question" placeholder="请提出你的问题" required>
+                <button type="submit">发送</button>
+            </form>
+            <button id="delete-conversation-btn" data-conversation-id="{{ current_user.id }}">删除会话</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 CAOS-NC Lab. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/chatgpt.js') }}"></script>
+</body>
+</html>

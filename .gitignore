@@ -1,0 +1,10 @@
+.venv
+.idea
+__pycache__
+*.zip
+Dockerfile
+dockerignore
+*.tar.gz
+*.pyc
+*.pem
+*.log

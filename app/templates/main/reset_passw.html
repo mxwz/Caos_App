@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>重置密码</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_reset.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+           {% for message in messages %}
+              <div id="flash-message" class="flash_msg">{{ message }}</div>
+           {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="loginBox">
+        <h2>重置密码</h2>
+        <form method="POST">
+            <div class="item">
+                <input type="email" id="reset_email" name="email" required>
+                <label for="">邮箱</label>
+            </div>
+            <button type="button" id="send_reset_email" class="btn">发送验证码
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="item">
+                <input type="text" name="email_code" required>
+                <label for="">验证码</label>
+            </div>
+            <div class="item">
+                <input type="password" name="new_password" required>
+                <label for="">密码</label>
+            </div>
+            <div class="item">
+                <input type="password" name="confirm_password" required>
+                <label for="">确认密码</label>
+            </div>
+            <button type="submit" class="btn">submit
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </form>
+        <div class="innerBox">
+            <a href="{{ url_for("main.login") }}" style="color: hotpink; margin-left: 10px">返回登录</a>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <a href="{{ url_for("main.index") }}" style="color: hotpink">返回首页</a>
+        </div>
+    </div>
+    <script>
+        // 验证邮箱格式的函数
+        function validateEmail(email) {
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailRegex.test(email);
+        }
+
+        // 绑定点击事件到发送验证码按钮
+        document.getElementById('send_reset_email').addEventListener('click', function() {
+            var email = document.getElementById('reset_email').value;
+            if (validateEmail(email)) {
+                // 如果邮箱格式正确，则发送验证码
+                // 这里可以调用发送验证码的函数或AJAX请求
+                console.log('邮箱格式正确，可以发送验证码');
+                // $.post('/send_email', { email: email }, function(data) {
+                //     alert(data.message);
+                // });
+            } else {
+                // 如果邮箱格式不正确，则弹出提示
+                alert('邮箱格式不正确，请重新输入');
+            }
+        });
+    </script>
+    <script>
+        $('#send_reset_email').click(function() {
+            const email = $('#reset_email').val();
+            $.post('/send_email', { email: email }, function(data) {
+                alert(data.message);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.onsubmit = function(event) {
+                const newPassword = document.querySelector('input[name="new_password"]').value;
+                const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+
+                if (newPassword !== confirmPassword) {
+                    event.preventDefault(); // 阻止表单提交
+                    alert('密码和确认密码不匹配，请重新输入。');
+                    return false;
+                }
+                return true;
+            };
+        });
+    </script>
+
+</body>
+</html>

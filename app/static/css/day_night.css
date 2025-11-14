@@ -1,0 +1,137 @@
+/* theme-switcher.css */
+
+/* 默认的日间模式样式 */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment,
+.reply,
+.sent_comments {
+    background-color: #f9f9f9;
+    border-left-color: #007bff;
+}
+
+.comment textarea,
+.sent_comments textarea {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+
+.comment button,
+.sent_comments button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.comment button:hover,
+.sent_comments button:hover {
+    background-color: #0056b3;
+}
+
+/* 夜间模式样式 */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .container {
+    background-color: #444;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .comment,
+body.dark-mode .reply,
+body.dark-mode .sent_comments {
+    background-color: #555;
+    border-left-color: #0056b3;
+}
+
+body.dark-mode .comment textarea,
+body.dark-mode .sent_comments textarea {
+    background-color: #666;
+    border-color: #777;
+    color: #fff;
+}
+
+body.dark-mode .comment button,
+body.dark-mode .sent_comments button {
+    background-color: #0056b3;
+}
+
+body.dark-mode .comment button:hover,
+body.dark-mode .sent_comments button:hover {
+    background-color: #003d80;
+}
+
+/* 开关按钮样式 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* 圆形滑块 */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* 将日夜切换按钮移动到 container 的最右边 */
+#day_night {
+    position: absolute;
+    top: 20px; /* 调整顶部距离 */
+    right: 20px; /* 调整右侧距离 */
+}

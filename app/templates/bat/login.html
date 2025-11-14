@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>{{ get_flashed_messages()[0] }}</h2>
+    <form method="POST">
+        <h2>登录</h2>
+        <input type="text" name="username" placeholder="用户名" required><br>
+        <input type="password" name="password" placeholder="密码" required><br>
+        <img id="captcha" src="{{ url_for('captcha', filename=session['captcha_text'] + '.png') }}" alt="验证码"><br>
+        <button type="button" id="refresh-captcha">更新验证码</button><br>
+        <input type="text" name="captcha" placeholder="请输入验证码" required><br>
+        <input type="submit" value="登录">
+    </form>
+    <a href="/static">返回主页</a>
+
+    <script>
+        function updateCaptcha() {
+            $.getJSON('/generate_captcha', function(data) {
+                $('#captcha').attr('src', '/captcha/' + data.captcha_text + '.png');
+            });
+        }
+
+        $(document).ready(function() {
+            $('#refresh-captcha').click(updateCaptcha);
+            setInterval(updateCaptcha, 30000);  // 每30秒更新一次验证码
+        });
+    </script>
+</body>
+</html>

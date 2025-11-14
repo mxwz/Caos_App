@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+    <title>登录</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+{#    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=786fbae36de9d0b87935fc1e20e1cb27"></script>#}
+    <script>
+        // 在页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查本地存储中是否有保存的密码
+            if (localStorage.getItem('remember_me') === 'true') {
+                document.getElementById('remember_me').checked = true;
+                document.getElementById('id_password').value = localStorage.getItem('id_password');
+                document.getElementById('id_username').value = localStorage.getItem('id_username');
+            }
+
+            // 监听表单提交事件
+            document.getElementById('loginForm').onsubmit = function() {
+                var remember_me = document.getElementById('remember_me').checked;
+                if (remember_me) {
+                    // 保存用户名和密码到本地存储
+                    localStorage.setItem('remember_me', 'true');
+                    localStorage.setItem('id_password', document.getElementById('id_password').value);
+                    localStorage.setItem('id_username', document.getElementById('id_username').value);
+                } else {
+                    // 清除本地存储中的用户名和密码
+                    localStorage.removeItem('remember_me');
+                    localStorage.removeItem('id_password');
+                    localStorage.removeItem('id_username');
+                }
+            };
+        });
+    </script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="tit">登录</div>
+{#        <form action="/auth/isregister" method="post">#}
+        <form method="post" id="loginForm">
+            <input type="text" name="login_name" id="id_username" placeholder="用户名/邮箱" value="{{ username }}" autocomplete="username" required>
+            <input type="password" name="password" id="id_password" placeholder="密码" autocomplete="current-password" required>
+{#            <img id="captcha" src="{{ url_for('captcha', filename=session['captcha_text'] + '.png') }}" alt="验证码"><br>#}
+            <img id="captcha" src="{{ url_for('main.captcha', filename=session['captcha_text'] + '.png') }}" alt="验证码" style="cursor: pointer;"><br>
+{#            <button type="button" id="refresh-captcha">更新验证码</button><br>#}
+            <input type="text" name="captcha" placeholder="请输入验证码" required><br>
+{#            <button class="but" type="submit">确定</button>#}
+            <input type="submit" value="登录">
+            <label for="terms">
+                <input type="checkbox" id="terms" name="terms" required>
+                我已阅读并同意<a id="t" href="{{ url_for("main.private_text") }}">用户服务协议</a>和<a id="t" href="{{ url_for("main.personal") }}">隐私协议</a>
+            </label>
+            <label for="remember_me" style="text-align: center; font-weight: bold;"><input type="checkbox" id="remember_me" name="remember_me">记住密码</label>
+            <label for="automatic_login" style="margin-left: 90px; text-align: center; font-weight: bold;"><input type="checkbox" id="automatic_login" name="automatic_login">7天免登录</label>
+        </form>
+        <span id="next">没有账号？<a href="{{ url_for("main.register") }}">去注册</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a href="{{ url_for("main.index") }}" style="color: red">返回首页</a></span>
+        <span id="next">忘记密码？<a href="{{ url_for("main.reset_password") }}" style="color: blue;">找回账号</a></span>
+    </div>
+{#    <a href="/">返回主页</a>#}
+    <div class="square">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="circle">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+{#    <script>#}
+{#        function updateCaptcha() {#}
+{#            $.getJSON('/generate_captcha', function(data) {#}
+{#                $('#captcha').attr('src', '/captcha/' + data.captcha_text + '.png');#}
+{#            });#}
+{#        }#}
+{##}
+{#        $(document).ready(function() {#}
+{#            $('#refresh-captcha').click(updateCaptcha);#}
+{#            setInterval(updateCaptcha, 30000);  // 每30秒更新一次验证码#}
+{#        });#}
+{#    </script>#}
+    <script>
+        function updateCaptcha() {
+            $.getJSON('/generate_captcha', function(data) {
+                $('#captcha').attr('src', '/captcha/' + data.captcha_text + '.png');
+            });
+        }
+
+        $(document).ready(function() {
+            // 将更新验证码与点击图片的事件关联
+            $('#captcha').click(updateCaptcha);
+            setInterval(updateCaptcha, 60000);  // 每30秒更新一次验证码
+        });
+    </script>
+{#    <script type="text/javascript">#}
+{#        var wrapper = document.getElementById("result");#}
+{#        var env = {#}
+{#            '平台类型': AMap.Browser.plat,#}
+{#            '是否移动设备': AMap.Browser.mobile,#}
+{#            '是否触摸设备': AMap.Browser.touch,#}
+{#            '是否高清屏': AMap.Browser.retina,#}
+{#            '是否安卓设备': AMap.Browser.android,#}
+{#            '是否iOS设备': AMap.Browser.ios,#}
+{#            '是否Windows设备': AMap.Browser.windows,#}
+{#            '是否Mac设备': AMap.Browser.mac,#}
+{#            '是否IE6': AMap.Browser.ie6,#}
+{#            '是否IE7': AMap.Browser.ie7,#}
+{#            '是否IE8': AMap.Browser.ie8,#}
+{#            '是否IE9': AMap.Browser.ie9,#}
+{#            '是否IE10': AMap.Browser.ie10,#}
+{#            '是否IE11': AMap.Browser.ie11,#}
+{#            '是否IE9以下': AMap.Browser.ielt9,#}
+{#            '是否Edge浏览器': AMap.Browser.edge,#}
+{#            '是否支持LocalStorage': AMap.Browser.isLocalStorage,#}
+{#            '是否支持Geolocation': AMap.Browser.isGeolocation,#}
+{#            '是否Webkit移动浏览器': AMap.Browser.mobileWebkit,#}
+{#            '是否支持Css3D的Webkit移动端浏览器': AMap.Browser.mobileWebkit3d,#}
+{#            '是否iPad': AMap.Browser.iPad,#}
+{#            '是否安卓4以下系统': AMap.Browser.android23,#}
+{#            '是否Chrome浏览器': AMap.Browser.chrome,#}
+{#            '是否火狐浏览器': AMap.Browser.firefox,#}
+{#            '是否Safari浏览器': AMap.Browser.safari,#}
+{#            '是否微信': AMap.Browser.wechat,#}
+{#            '是否UC浏览器': AMap.Browser.uc,#}
+{#            '是否QQ或QQ浏览器': AMap.Browser.qq,#}
+{#            '是否IE浏览器': AMap.Browser.ie,#}
+{#            '是否支持Canvas': AMap.Browser.isCanvas,#}
+{#            '是否支持SVG': AMap.Browser.isSvg,#}
+{#            '是否支持VML': AMap.Browser.isVML,#}
+{#            '是否支持WebWorker': AMap.Browser.isWorker,#}
+{#            '是否支持WebSocket': AMap.Browser.isWebsocket,#}
+{#            '是否支持WebGL': AMap.Browser.isWebGL(),#}
+{#            '是否支持Css3D的Webkit浏览器': AMap.Browser.webkit3d,#}
+{#            '是否支持Css3D的Gecko浏览器': AMap.Browser.gecko3d,#}
+{#            '是否支持Css3D的IE浏览器': AMap.Browser.ie3d,#}
+{#            '是否支持Css3D的浏览器': AMap.Browser.any3d,#}
+{#            '是否支持Css3D的Opera浏览器': AMap.Browser.opera3d,#}
+{#            '是否msPointer设备': AMap.Browser.msPointer,#}
+{#            '是否pointer设备': AMap.Browser.pointer,#}
+{#            '是否webkit浏览器': AMap.Browser.webkit,#}
+{#            'User-Agent': AMap.Browser.ua#}
+{#        };#}
+{#        // 发送定位数据到服务器#}
+{#        sendDataToServer(env);#}
+{##}
+{#        // 发送数据到服务器的函数#}
+{#        function sendDataToServer(env) {#}
+{#            fetch('http://localhost:5000/api/Browser_Detection', {#}
+{#                method: 'POST',#}
+{#                mode: 'cors',  // 确保是'cors'#}
+{#                credentials: 'include',  // 确保发送cookies#}
+{#                headers: {#}
+{#                    'Content-Type': 'application/json',#}
+{#                },#}
+{#                body: JSON.stringify({#}
+{#                    Browser_Detection: env#}
+{#                })#}
+{#            })#}
+{#            .then(response => response.json())#}
+{#            .then(data => {#}
+{#                console.log('Success:', data);#}
+{#            })#}
+{#            .catch((error) => {#}
+{#                console.error('Error:', error);#}
+{#            });#}
+{#        }#}
+{##}
+        {#var tree = jsonTree.create(env, wrapper)#}
+        {#tree.expand();#}
+{#    </script>#}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 选择所有class为flash_msg的元素
+            var flashMessages = document.querySelectorAll('.flash_msg');
+
+            // 为每个消息设置定时器
+            flashMessages.forEach(function (flashMessage) {
+                // 显示消息
+                flashMessage.style.display = 'block';
+
+                // 设置定时器，两秒后隐藏消息
+                setTimeout(function () {
+                    flashMessage.style.display = 'none';
+                }, 2000);
+            });
+        });
+    </script>
+    <script>
+            var arr = ["❤富强❤", "❤民主❤", "❤文明❤", "❤和谐❤", "❤自由❤", "❤平等❤", "❤公正❤", "❤法治❤", "❤爱国❤",
+                        "❤敬业❤", "❤诚信❤", "❤友善❤"]
+                function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+            document.onclick = function (x) {
+                // 创建元素节点对象
+                var span = document.createElement("span")
+                span.id = "aaa"
+                // 获取当前鼠标的坐标
+                span.style.left = x.clientX + "px"
+                span.style.top = x.clientY + "px"
+                // 让span的值为arr数组内随机的一个值
+                span.innerHTML = arr[Math.floor(Math.random() * arr.length)]
+                 // 设置span的背景颜色为随机颜色
+                span.style.color = getRandomColor();
+                // 设置span的动画效果（这里可以自行）
+                setTimeout(function () {
+                    span.style.opacity = "0.5"
+                    span.style.transform = "translateY(-100px)"
+                }, 100)
+                setTimeout(function () {
+                    span.style.opacity = "0"
+                    span.style.transform = "translateY(-230px)"
+                }, 1500)
+                // 最后一步是清掉opacirt为0的span
+                setTimeout(function () {
+                    var chi = document.getElementsByTagName("span")
+                    chi.id = "aaa"
+                    for (var i = 0; i < chi.length; i++) {
+                        if (chi[i].style.opacity == "0") {
+                            document.body.removeChild(chi[i])
+                        }
+                    }
+                }, 1000)
+                // 将span添加到body里
+                document.body.appendChild(span)
+            }
+        </script>
+</body>
+
+</html>

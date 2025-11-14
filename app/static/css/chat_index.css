@@ -1,0 +1,19 @@
+.message {
+    margin-bottom: 10px;
+}
+
+.message .username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.message .content {
+    margin-left: 10px;
+}
+
+.message .quote {
+    background-color: #f0f0f0;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}

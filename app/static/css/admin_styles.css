@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar-title {
+    font-size: 20px;
+}
+
+.user-name {
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 40px); /* 考虑到导航栏的高度 */
+    margin-top: 40px; /* 导航栏的高度 */
+}
+
+.sidebar {
+    width: 1px;
+    background-color: #333;
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 1;
+}
+
+.sidebar-header .toggle-btn {
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    display: none; /* 默认隐藏按钮 */
+}
+
+.sidebar.expanded .sidebar-header .toggle-btn {
+    display: block; /* 展开时显示按钮 */
+}
+
+.sidebar ul {
+    list-style: none;
+    margin-top: 50px; /* 确保内容在按钮下方 */
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: padding-left 0.3s ease;
+}
+
+.sidebar.expanded ul li a {
+    padding-left: 20px;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+}
+
+.flash_msg{
+    position: absolute; /* 绝对定位相对于 .container */
+    top: 10px; /* 距离上边距 10 像素 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 通过负半宽度进行精确居中 */
+    background-color: rgba(173, 216, 230, 0.8); /* 半透明淡蓝色 */
+    color: #000; /* 文本颜色为黑色 */
+    padding: 5px 10px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    font-size: 14px; /* 字体大小 */
+    display: flex; /* 可选：使内容居中 */
+    justify-content: center; /* 可选：水平方向居中 */
+    align-items: center; /* 可选：垂直方向居中 */
+}

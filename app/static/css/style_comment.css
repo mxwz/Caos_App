@@ -1,0 +1,240 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative; /* 添加相对定位 */
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#comments {
+    margin-bottom: 20px;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.comment:hover {
+    transform: scale(1.02);
+}
+
+.reply {
+    margin-left: 20px;
+    background-color: #e9e9e9;
+}
+
+.comment form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment textarea {
+    width: 70%;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.comment button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment button:hover {
+    background-color: #0056b3;
+}
+
+/* 新增的 .sent_comments 样式 */
+.sent_comments {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.sent_comments form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sent_comments textarea {
+    width: 70%;
+    height: 100px; /* 增加高度 */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; /* 允许垂直调整大小 */
+}
+
+.sent_comments button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.sent_comments button:hover {
+    background-color: #0056b3;
+}
+
+/* 日夜模式切换按钮 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* 圆形滑块 */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* 夜间模式样式定义 */
+/* 可以在这里设置需要随着日夜模式变幻的内容，例子看h1 */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode h1 {
+    color: #fff;
+}
+
+body.dark-mode .container {
+    background-color: #444;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .comment,
+body.dark-mode .reply {
+    background-color: #555;
+    border-left-color: #0056b3;
+}
+
+body.dark-mode .sent_comments {
+    background-color: #555;
+}
+
+body.dark-mode .comment textarea,
+body.dark-mode .sent_comments textarea {
+    background-color: #666;
+    border-color: #777;
+    color: #fff;
+}
+
+body.dark-mode .comment button,
+body.dark-mode .sent_comments button {
+    background-color: #0056b3;
+}
+
+body.dark-mode .comment button:hover,
+body.dark-mode .sent_comments button:hover {
+    background-color: #003d80;
+}
+
+/* 将日夜切换按钮移动到 container 的最右边 */
+#day_night {
+    position: absolute;
+    top: 20px; /* 调整顶部距离 */
+    right: 20px; /* 调整右侧距离 */
+}
+
+
+.flash_msg{
+    position: absolute; /* 绝对定位相对于 .container */
+    top: 10px; /* 距离上边距 10 像素 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 通过负半宽度进行精确居中 */
+    background-color: rgba(173, 216, 230, 0.8); /* 半透明淡蓝色 */
+    color: #000; /* 文本颜色为黑色 */
+    padding: 5px 10px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    font-size: 14px; /* 字体大小 */
+    display: flex; /* 可选：使内容居中 */
+    justify-content: center; /* 可选：水平方向居中 */
+    align-items: center; /* 可选：垂直方向居中 */
+}

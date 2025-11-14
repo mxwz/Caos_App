@@ -1,0 +1,12 @@
+?
+exit
+help
+exit -h
+printflow -h
+printflow --help
+printflow --helpsadasda
+?
+help -h
+hello -h
+exit -h
+exit\

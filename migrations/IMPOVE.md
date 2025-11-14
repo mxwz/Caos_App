@@ -1,0 +1,24 @@
+# IMPOVE
+## 项目需求
+- 隐私政策 √
+- 不切换页面 √
+- 提示闪回 √
+- session缓存 √
+- 换界面 √
+- 自动填充信息 √
+- 添加邮箱验证功能，发送验证码的同时可以点击邮件里的链接进行验证
+- 邮箱验证需求增加时间核验，五分钟过期 √
+- 管理session，去除一切不必要且繁琐的参数
+- 忘记密码 √
+- 保持登录cookie
+- 跟踪器
+- https，申请 [Let’s Encrypt](https://www.cnblogs.com/88223100/p/Generate-free-SSL-certificates-through-Let_s-Encrypt.html)
+- 因素认证（设备）
+- 如何进行会话管理，设置httponly和secure，还有如何进行轮换会话id
+- 自动刷新验证码（HTML中） √
+- 更改主页（导航栏人物下拉栏）
+- 提示闪回消失
+- 日夜模式切换
+- 记住登录名和密码
+- 自动登录
+- 日志记录

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konchok</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/styles.css" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_index.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico/1.ico') }}" type="image/x-icon">
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=786fbae36de9d0b87935fc1e20e1cb27"></script>
+
+</head>
+<body>
+{#    <iframe id="map-frame" src="{{ url_for('static', filename='css/position.html') }}"></iframe>#}
+    <header>
+        <div class="main">
+            <ul>
+                <li class="active"><a href="#">首页</a></li>
+{#                <li><a href="http://www.baidu.com" target="_blank">百度</a></li>#}
+                {% if role == 'admin' %}
+                    <li><a href="{{ url_for('manage.datav') }}">数据大屏</a></li>
+                {% endif %}
+                <li><a href="{{ url_for("main.position") }}" target="_blank">定位</a></li>
+                <li><a href="{{ url_for("main.newspaper") }}">AI资讯</a></li>
+                <li><a href="https://10.248.55.195:5034" target="_blank">行车安全体验中心</a></li>
+                <li><a href="https://10.248.55.195:5035" target="_blank">养老情景体验中心</a></li>
+                <li><a href="{{ url_for("main.gpt") }}"><span style="color: crimson;">GPT</span>Chat</a></li>
+{#                <li><a href="/login" target="_blank">登录</a></li>#}
+                {# 如果去掉target则实现不新开页面切换               #}
+                {% if username %}
+                    <li class="dropdown"><a href="#" style="color:red;" class="dropbtn">{{ username }}</a>
+                        <div class="dropdown-content">
+                            {% if role == 'admin' %}
+                                <a href="{{ url_for('manage.management') }}">后台管理</a>
+                            {% endif %}
+                            <a href="{{ url_for("main.comment") }}">评论区</a>
+                            <a href="{{ url_for("chat.chat") }}">发言区</a>
+                            <a href="{{ url_for("page.home") }}">个人主页</a>
+                            <a href="{{ url_for("page.update_profile") }}">资料完善</a>
+                            <a href="{{ url_for("main.reset_password") }}">更改密码</a>
+                            <a href="{{ url_for('main.logout') }}">登出</a>
+                        </div>
+                    </li>
+                {% else %}
+{#                    <li><a href="/login">登录</a></li>#}
+                    <li><a href="{{ url_for('main.login') }}">登录</a></li>
+                    <li><a href="{{ url_for('main.register') }}">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="title">
+            {% if username %}
+                <h1><span style="color: crimson;">混沌新城 | </span> 欢迎你的到来</h1>
+                <p style="color: #9d9d9d">AI综合平台，致力打造高效性，便捷性，多元性的智能生态系统</p>
+{#                <h3><span style="color: #c7254e">深圳信息职业技术学院</span> <span style="color: salmon">杨海琦 2207150132</span></h3>#}
+            {% else %}
+                <h1><span style="color: crimson;">混沌新城 | </span> 科技的力量</h1>
+                <p style="color: #9d9d9d">混沌新城，一个以科技为支撑，以科技为动力，以科技为保障的新城市。</p>
+{#                <h3><span style="color: #c7254e">深圳信息职业技术学院</span> <span style="color: salmon">杨海琦 2207150132</span></h3>#}
+            {% endif %}
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash_msg" style="display: none;"> <!-- 初始状态为隐藏 -->
+                    <div>{{ message }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <script type="text/javascript">
+        {% if userid %}
+            var wrapper = document.getElementById("result");
+            var env = {
+                '平台类型': AMap.Browser.plat,
+                '是否移动设备': AMap.Browser.mobile,
+                '是否触摸设备': AMap.Browser.touch,
+                '是否高清屏': AMap.Browser.retina,
+                '是否安卓设备': AMap.Browser.android,
+                '是否iOS设备': AMap.Browser.ios,
+                '是否Windows设备': AMap.Browser.windows,
+                '是否Mac设备': AMap.Browser.mac,
+                '是否IE6': AMap.Browser.ie6,
+                '是否IE7': AMap.Browser.ie7,
+                '是否IE8': AMap.Browser.ie8,
+                '是否IE9': AMap.Browser.ie9,
+                '是否IE10': AMap.Browser.ie10,
+                '是否IE11': AMap.Browser.ie11,
+                '是否IE9以下': AMap.Browser.ielt9,
+                '是否Edge浏览器': AMap.Browser.edge,
+                '是否支持LocalStorage': AMap.Browser.isLocalStorage,
+                '是否支持Geolocation': AMap.Browser.isGeolocation,
+                '是否Webkit移动浏览器': AMap.Browser.mobileWebkit,
+                '是否支持Css3D的Webkit移动端浏览器': AMap.Browser.mobileWebkit3d,
+                '是否iPad': AMap.Browser.iPad,
+                '是否安卓4以下系统': AMap.Browser.android23,
+                '是否Chrome浏览器': AMap.Browser.chrome,
+                '是否火狐浏览器': AMap.Browser.firefox,
+                '是否Safari浏览器': AMap.Browser.safari,
+                '是否微信': AMap.Browser.wechat,
+                '是否UC浏览器': AMap.Browser.uc,
+                '是否QQ或QQ浏览器': AMap.Browser.qq,
+                '是否IE浏览器': AMap.Browser.ie,
+                '是否支持Canvas': AMap.Browser.isCanvas,
+                '是否支持SVG': AMap.Browser.isSvg,
+                '是否支持VML': AMap.Browser.isVML,
+                '是否支持WebWorker': AMap.Browser.isWorker,
+                '是否支持WebSocket': AMap.Browser.isWebsocket,
+                '是否支持WebGL': AMap.Browser.isWebGL(),
+                '是否支持Css3D的Webkit浏览器': AMap.Browser.webkit3d,
+                '是否支持Css3D的Gecko浏览器': AMap.Browser.gecko3d,
+                '是否支持Css3D的IE浏览器': AMap.Browser.ie3d,
+                '是否支持Css3D的浏览器': AMap.Browser.any3d,
+                '是否支持Css3D的Opera浏览器': AMap.Browser.opera3d,
+                '是否msPointer设备': AMap.Browser.msPointer,
+                '是否pointer设备': AMap.Browser.pointer,
+                '是否webkit浏览器': AMap.Browser.webkit,
+                'User-Agent': AMap.Browser.ua
+            };
+            // 发送定位数据到服务器
+            sendDataToServer(env);
+
+            // 发送数据到服务器的函数
+            function sendDataToServer(env) {
+                fetch('/api/Browser_Detection', {
+                    method: 'POST',
+                    mode: 'cors',  // 确保是'cors'
+                    credentials: 'include',  // 确保发送cookies
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        Browser_Detection: env,
+                        user_id: {{ userid }},
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+        {% endif %}
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 选择所有class为flash_msg的元素
+            var flashMessages = document.querySelectorAll('.flash_msg');
+
+            // 为每个消息设置定时器
+            flashMessages.forEach(function (flashMessage) {
+                // 显示消息
+                flashMessage.style.display = 'block';
+
+                // 设置定时器，两秒后隐藏消息
+                setTimeout(function () {
+                    flashMessage.style.display = 'none';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

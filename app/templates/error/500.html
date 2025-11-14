@@ -1,0 +1,13 @@
+{% extends "bases/../bases/base.html" %}
+
+{% block title %}
+500错误！
+{% endblock %}
+
+{% block title_content %}
+抱歉，服务器发生了内部错误。
+{% endblock %}
+
+{% block text_content %}
+错误信息: {{ error_message }}
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_userList.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>User List</h1>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Create Time</th>
+                    <th>Roles</th>
+                    <th>Last Login</th>
+                    <th>Last Info Change</th>
+                    <th>Last Password Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_data %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.create_time}}</td>
+                        <td>{{ user.roles }}</td>
+                        <td>{{ user.last_login if user.last_login else 'N/A' }}</td>
+                        <td>{{ user.last_info_change if user.last_info_change else 'N/A' }}</td>
+                        <td>{{ user.last_password_change if user.last_password_change else 'N/A' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

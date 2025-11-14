@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <span class="navbar-title">后台管理系统</span>
+            <span class="user-name">{{ username }}</span>
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="toggle-btn" onclick="toggleSidebar()">&#9776;</span>
+            </div>
+            <ul>
+                <li><a href="#dashboard">仪表盘</a></li>
+                <li><a href="{{ url_for('manage.datav') }}">数据大屏</a></li>
+                <li><a href="{{ url_for('manage.go_admin') }}">用户管理</a></li>
+                <li><a href="#settings">系统设置</a></li>
+                <li><a href="{{ url_for('main.logout') }}">退出登录</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h1>欢迎来到后台管理系统</h1>
+            <p>这里是管理员进行系统管理的地方。</p>
+            <div class="card">
+                <h2>最新通知</h2>
+                <p>这里可以显示最新的系统通知。</p>
+            </div>
+            <div class="card">
+                <h2>用户统计</h2>
+                <p>当前用户总数：1000</p>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/admin_script.js') }}"></script>
+</body>
+</html>
