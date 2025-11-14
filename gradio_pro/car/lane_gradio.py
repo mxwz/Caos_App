@@ -64,7 +64,7 @@ css = """
 
 
 def get_external_ip():
-    response = requests.get('https://cn.apihz.cn/api/ip/ipbaidu.php?id=10000996&key=265d85ba1e64b2bde1ba51984bb329d1')
+    response = requests.get('https://cn.apihz.cn/api/ip/ipbaidu.php?id=设置id&key=设置密钥')
 
     data = response.json()
     return data  # 返回解析后的字典
@@ -508,13 +508,13 @@ def routing(start, end, strategy="32", plate="", cartype="0"):
         end_city = ""
 
     start_params = {
-        "key": "71f1bd04afd00969c7b37cbfc8262a2a",
+        "key": "密钥a",
         "address": f"{start}",
         "city": f"{start_city}",
         "output": "JSON"
     }
     end_params = {
-        "key": "71f1bd04afd00969c7b37cbfc8262a2a",
+        "key": "密钥",
         "address": f"{end}",
         "city": f"{end_city}",
         "output": "JSON"
@@ -564,7 +564,7 @@ def routing(start, end, strategy="32", plate="", cartype="0"):
     }
 
     data = {
-        "key": "71f1bd04afd00969c7b37cbfc8262a2a",
+        "key": "密钥",
         "origin": f"{start_BL}",
         "destination": f"{end_BL}",
         "strategy": f"{strategy}",
@@ -629,7 +629,7 @@ def routing(start, end, strategy="32", plate="", cartype="0"):
             </style>
             <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
             <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
-            <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=969daf5ed11451b3df75146f0d41ba66&plugin=AMap.Driving"></script>
+            <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=密钥&plugin=AMap.Driving"></script>
             <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
         </head>
         <body>
@@ -669,7 +669,7 @@ def routing(start, end, strategy="32", plate="", cartype="0"):
     province, number = province_num(plate)
 
     driving_params = {
-        "key": "71f1bd04afd00969c7b37cbfc8262a2a",
+        "key": "密钥",
         "origin": f"{start_BL}",
         "destination": f"{end_BL}",
         "strategy": f"{mode_dict[strategy]}",
@@ -724,7 +724,7 @@ def routing(start, end, strategy="32", plate="", cartype="0"):
         <input type="button" class="btn" value="停止动画" id="stop" onclick="stopAnimation()"/>
     </div>
 </div>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=969daf5ed11451b3df75146f0d41ba66"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=密钥"></script>
 <script>
     // JSAPI2.0 使用覆盖物动画必须先加载动画插件
     AMap.plugin('AMap.MoveAnimation', function(){{
@@ -806,7 +806,7 @@ def IP_address(_ip_):
     url = "https://restapi.amap.com/v3/ip?parameters"
 
     params = {
-        "key": "71f1bd04afd00969c7b37cbfc8262a2a",
+        "key": "密钥",
         "ip": f"{_ip_}"
     }
 
@@ -939,8 +939,8 @@ def take_video(video):
 def chatbot_response(message, history):
     # bot_message = random.choice(["How are you?", "I love you", "I'm very hungry"])
     # 配置密钥与应用ID
-    os.environ["APPBUILDER_TOKEN"] = "bce-v3/ALTAK-prxvvKb8NBpeTxYwI4Kpn/3f453af9371e76a8451ef5fb758e78c03be2bcad"
-    app_id = "f6932dcb-3edb-4b07-b1e2-ae1483f93ef7"
+    os.environ["APPBUILDER_TOKEN"] = "百度云api"
+    app_id = "百度云api"
 
     # 初始化Agent实例
     builder = appbuilder.AppBuilderClient(app_id)
@@ -1122,7 +1122,7 @@ app6 = gr.ChatInterface(
 
 # with gr.Blocks(js=js) as app4:
 #     with gr.Row():
-#         start = gr.Textbox(value="深圳信息职业技术学院", info="最好填写 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码",
+#         start = gr.Textbox(value="深圳信息职业技术大学", info="最好填写 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码",
 #                            label="起始地点", show_label=True, show_copy_button=True)
 #         destination = gr.Textbox(value="大运中心", info="最好填写 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码",
 #                                  label="目的地", show_label=True, show_copy_button=True)
